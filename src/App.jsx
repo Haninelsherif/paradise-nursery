@@ -1,49 +1,33 @@
-
-import React, { useState } from 'react';
-import ProductList from './ProductList';
-import './App.css';
-import AboutUs from './AboutUs';
+import React, { useState } from "react";
+import AboutUs from "./AboutUs";
+import ProductList from "./ProductList";
+import CartItem from "./CartItem";
+import "./App.css";
 
 function App() {
-  
-  const [showProductList, setShowProductList] = useState(false);
-
-  const handleGetStartedClick = () => {
-    setShowProductList(true);
+  const [page, setPage] = useState("home");
+  const navigate = (nextPage) => {
+    setPage(nextPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleHomeClick = () => {
-    setShowProductList(false);
-  };
+  if (page === "plants") return <ProductList onNavigate={navigate} />;
+  if (page === "cart") return <CartItem onNavigate={navigate} />;
 
   return (
-    <div className="app-container">
-      <div className={`landing-page ${showProductList ? 'fade-out' : ''}`}>
-        <div className="background-image"></div>
-        <div className="content">
-         <div className="landing_content">
-         <h1>Welcome To Paradise Nursery</h1>
-          <div className="divider"></div>
-          <p>Where Green Meets Serenity</p>
-         
-          <button className="get-started-button" onClick={handleGetStartedClick}>
-            Get Started
-          </button>
-         </div>
-          <div className="aboutus_container">
-          <AboutUs/>
-          </div>
-          </div>
-
+    <main className="landing-page">
+      <div className="background-image" aria-hidden="true" />
+      <div className="landing-overlay">
+        <div className="landing-content">
+          <p className="eyebrow">PARADISE NURSERY</p>
+          <h1>Welcome to Paradise Nursery</h1>
+          <div className="divider" />
+          <p className="tagline">Where Green Meets Serenity</p>
+          <button className="get-started-button" onClick={() => navigate("plants")}>Get Started</button>
+        </div>
+        <div className="aboutus-container"><AboutUs /></div>
       </div>
-      <div className={`product-list-container ${showProductList ? 'visible' : ''}`}>
-        <ProductList onHomeClick={handleHomeClick}/>
-      </div>
-    </div>
+    </main>
   );
 }
-
 export default App;
-
-
-
